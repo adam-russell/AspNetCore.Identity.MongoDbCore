@@ -682,7 +682,7 @@ namespace Microsoft.AspNetCore.Identity.Test
         }
 
         [Fact]
-        public void UserManagerWillUseTokenProviderInstance()
+        public async Task UserManagerWillUseTokenProviderInstanceAsync()
         {
             var provider = new ATokenProvider();
             var config = new ConfigurationBuilder().Build();
@@ -695,11 +695,11 @@ namespace Microsoft.AspNetCore.Identity.Test
                 ProviderInstance = provider
             })).AddUserStore<NoopUserStore>();
             var manager = services.BuildServiceProvider().GetService<UserManager<TestUser>>();
-            Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), "A", "purpose"));
+            await Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), "A", "purpose"));
         }
 
         [Fact]
-        public void UserManagerWillUseTokenProviderInstanceOverDefaults()
+        public async Task UserManagerWillUseTokenProviderInstanceOverDefaultsAsync()
         {
             var provider = new ATokenProvider();
             var config = new ConfigurationBuilder().Build();
@@ -712,7 +712,7 @@ namespace Microsoft.AspNetCore.Identity.Test
                     ProviderInstance = provider
                 })).AddUserStore<NoopUserStore>().AddDefaultTokenProviders();
             var manager = services.BuildServiceProvider().GetService<UserManager<TestUser>>();
-            Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), TokenOptions.DefaultProvider, "purpose"));
+            await Assert.ThrowsAsync<NotImplementedException>(() => manager.GenerateUserTokenAsync(new TestUser(), TokenOptions.DefaultProvider, "purpose"));
         }
 
         [Fact]
